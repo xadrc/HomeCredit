@@ -42,7 +42,7 @@ spark = SparkSession\
 
 dir_root = '/path_to/HomeCredit'
 dir_data = os.path.join(dir_root, 'data')
-dir_outp = os.path.join(dir_root, 'outputs')git rm
+dir_outp = os.path.join(dir_root, 'outputs')
 
 """
     DATA
