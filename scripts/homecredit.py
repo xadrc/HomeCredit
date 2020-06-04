@@ -160,7 +160,7 @@ def info_missing(sparkdf, verbose = True):
             print('SUMMARY MISSING VARIABLES:\n')
             table = tabulate(
                 mis_val_table,
-                headers = ['variable name', 'n missing', '%'],
+                headers  = ['variable name', 'n missing', '%'],
                 tablefmt = 'psql'
             )
             print(table, '\n')
@@ -215,7 +215,7 @@ def fill_cat_ft(sparkdf, list_cat_ft, list_miss_ft, verbose = True):
         print("FILLING MISSING CATEGORICAL VARIABLES:\n")
         table = tabulate(
             table,
-            headers = ["Name", "Replaced by (most frequent)"],
+            headers  = ["Name", "Replaced by (most frequent)"],
             tablefmt = 'psql'
         )
         print(table, '\n')
@@ -243,7 +243,7 @@ def fill_num_ft(sparkdf, list_num_ft, list_miss_ft, verbose = True):
         print("FILLING MISSING NUMERICAL VARIABLES:\n")
         table = tabulate(
             table,
-            headers = ["Name", "Replaced by (AVG)"],
+            headers  = ["Name", "Replaced by (AVG)"],
             tablefmt = 'psql'
         )
         print(table, '\n')
@@ -436,7 +436,7 @@ def model_eval(model, sparkdf_test, label, weight, verbose = True, plot = True):
         plt.close()
 
     model_metrics = namedtuple("model", ["name", "confusion_matrix", "precision", "recall", "f1_score", "auc"])
-    model_metrics = metrics(name, conf_mat, precision, recall, f1_score, auc)
+    model_metrics = model_metrics(name, conf_mat, precision, recall, f1_score, auc)
 
     return model_metrics
 
