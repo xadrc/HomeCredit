@@ -7,6 +7,8 @@ import pyspark
 
 import os
 import itertools
+import argparse
+
 import pandas            as pd
 import numpy             as np
 import seaborn           as sns
@@ -28,21 +30,6 @@ from pyspark.ml.evaluation      import BinaryClassificationEvaluator,       \
                                        MulticlassClassificationEvaluator
 
 from sklearn.metrics            import classification_report, confusion_matrix
-
-
-"""
-    CONF
-"""
-
-spark = SparkSession\
-    .builder\
-    .master('local[*]')\
-    .appName('imbalanced_bin_class')\
-    .getOrCreate()
-
-dir_root = 'path_to/HomeCredit'
-dir_data = os.path.join(dir_root, 'data')
-dir_outp = os.path.join(dir_root, 'outputs')
 
 
 """
@@ -480,4 +467,15 @@ def main():
 """
 
 if __name__ == '__main__':
+    # CONF SPARK SESSION
+    spark = SparkSession\
+        .builder\
+        .master('local[*]')\
+        .appName('imbalanced_bin_class')\
+        .getOrCreate()
+    # SET DIRECTORIES
+    dir_root = 'path_to/HomeCredit'
+    dir_data = os.path.join(dir_root, 'data')
+    dir_outp = os.path.join(dir_root, 'outputs')
+    # EXECUTE
     main()
