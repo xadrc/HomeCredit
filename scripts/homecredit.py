@@ -95,7 +95,8 @@ def calc_classratio(sparkdf, target_col, verbose = True, plot = True):
     ratio = (1 - (dist.loc[0, ['count']][0] / dist.loc[1, ['count']][0]))
     
     if verbose:
-        print('\nclass ratio : {}\n'.format(ratio.round(3)))
+        print('IMBALANCED CLASS RATIO:\n')
+        print('{}\n'.format(ratio.round(2)))
     
     if plot:
         d = sparkdf.select('TARGET').toPandas()
