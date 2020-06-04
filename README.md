@@ -144,7 +144,8 @@ root
  |-- AMT_REQ_CREDIT_BUREAU_YEAR: double (nullable = true)
 
 
-class ratio : 0.912
+IMBALANCED CLASS RATIO :
+0.91
 
 SUMMARY MISSING VARIABLES:
 
