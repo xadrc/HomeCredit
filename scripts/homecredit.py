@@ -435,10 +435,10 @@ def model_eval(model, sparkdf_test, label, weight, verbose = True, plot = True):
         )   
         plt.close()
 
-    metrics = namedtuple("model", ["name", "confusion_matrix", "precision", "recall", "f1_score", "auc"])
-    metrics = metrics(name, conf_mat, precision, recall, f1_score, auc)
+    model_metrics = namedtuple("model", ["name", "confusion_matrix", "precision", "recall", "f1_score", "auc"])
+    model_metrics = metrics(name, conf_mat, precision, recall, f1_score, auc)
 
-    return conf_mat
+    return model_metrics
 
 
 """
@@ -456,7 +456,7 @@ def main():
     df = add_col_weight(df, ratio)
     df = cat_to_onehotvector(df, ft_types.categorical)
     df_train, df_test = split(df, [.80, .20])
-    LR_model   = LR_fit(df_train, 'FEATURES', 'TARGET', 'WEIGHT')
+    LR_model   = LR_fit(df_train,  'FEATURES', 'TARGET', 'WEIGHT')
     LR_eval    = model_eval(LR_model, df_test, 'TARGET', 'WEIGHT')
 
     return None
