@@ -334,7 +334,7 @@ def split(sparkdf, weights):
     )
     return x, y
 
-p
+
 def LR_fit(sparkdf_train, features, label, weight, verbose = True): 
     """
     Trains a logistic regression model to data
