@@ -40,12 +40,13 @@ spark = SparkSession\
     .appName('imbalanced_bin_class')\
     .getOrCreate()
 
-dir_root = '/path_to/HomeCredit'
+dir_root = 'path_to/HomeCredit'
 dir_data = os.path.join(dir_root, 'data')
 dir_outp = os.path.join(dir_root, 'outputs')
 
+
 """
-    DATA
+    PROCESSING DATA
 """
 
 def csv_to_sparkdf(data_path, verbose = True):
@@ -58,7 +59,7 @@ def csv_to_sparkdf(data_path, verbose = True):
         inferSchema = True
     )
     if verbose: 
-        print('\nFEATURES:\n') ; sparkdf.printSchema()
+        print('\nLOADED DATA SET:\n') ; sparkdf.printSchema()
 
     return sparkdf
 
@@ -169,10 +170,12 @@ def info_missing(sparkdf, verbose = True):
 
         if verbose: 
             print('SUMMARY MISSING VARIABLES:\n')
-            print(
-                str(pandasdf.shape[1]) + " features, " + str(mis_val_table.shape[0]) + " of which countain missing values.\n"
+            table = tabulate(
+                mis_val_table,
+                headers = ['variable name', 'n missing', '%'],
+                tablefmt = 'psql'
             )
-            print(mis_val_table, '\n')
+            print(table, '\n')
 
         return mis_val_table
 
@@ -275,7 +278,6 @@ def add_col_weight(sparkdf, ratio, verbose = True):
     return sparkdf
 
 
-
 def cat_to_onehotvector(sparkdf, list_cat_ft, verbose = True):
     """
     Converts categorical features in spark dataframe into OneHot Vectors
@@ -315,9 +317,15 @@ def cat_to_onehotvector(sparkdf, list_cat_ft, verbose = True):
     return sparkdf
     
     
+"""
+    MACHINE LEARNING
+"""
+
 def split(sparkdf, weights):
     """
     Splits spark dataframe into train & test sets
+        - sparkdf: spark dataframe
+        - weights: vector of weights for split
     """
     x, y = sparkdf.randomSplit(
         weights, 
@@ -325,10 +333,14 @@ def split(sparkdf, weights):
     )
     return x, y
 
-
+p
 def LR_fit(sparkdf_train, features, label, weight, verbose = True): 
     """
-    Fits a logsitic regression model to training data
+    Trains a logistic regression model to data
+        - sparkdf_train:    training spark dataframe set
+        - features:         column name of vector features
+        - label:            comumn name of target
+        - weight:           column name of classes weights
     """
     model = LogisticRegression(
         featuresCol = features, 
@@ -344,9 +356,13 @@ def LR_fit(sparkdf_train, features, label, weight, verbose = True):
     return model
 
 
-def model_eval(model, sparkdf_test, label, weight, verbose = True):
+def model_eval(model, sparkdf_test, label, weight, verbose = True, plot = True):
     """
     Evaluates binary classification model
+        - model             binary classification model
+        - sparkdf_test:     testing spark dataframe set
+        - label:            comumn name of target
+        - weight:           column name of classes weights
     """
     predictions = model.transform(sparkdf_test)
     evaluator   = BinaryClassificationEvaluator(
@@ -390,6 +406,8 @@ def model_eval(model, sparkdf_test, label, weight, verbose = True):
         )
         print("Metrics:")
         print(table_2, '\n')
+    
+    if plot:
         # Export ROC curve
         roc  = model.summary.roc.toPandas()
         plt.figure(figsize = (10, 10))
@@ -435,6 +453,9 @@ def model_eval(model, sparkdf_test, label, weight, verbose = True):
     return conf_mat
 
 
+"""
+    MAIN()
+"""
 
 def main():
     df = csv_to_sparkdf(os.path.join(dir_data, 'application.csv'))
@@ -453,6 +474,9 @@ def main():
     return None
 
 
+"""
+    EXECUTE 
+"""
 
 if __name__ == '__main__':
     main()
