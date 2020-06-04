@@ -468,6 +468,7 @@ def main():
 
 if __name__ == '__main__':
     # CONF SPARK SESSION
+    findspark.init()
     spark = SparkSession\
         .builder\
         .master('local[*]')\
