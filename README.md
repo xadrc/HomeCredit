@@ -4,6 +4,11 @@
 
 End to end imbalanced classification problem using HomeCredit Kaggle dataset and Apache Spark ML
 
+
+### AIM
+
+Identify if loan applicants are capable of repaying their loans based on the data collected from each applicant
+
 ### ACHIEVEMENTS
 
 * Data exploration, computation of class imbalance ratio
