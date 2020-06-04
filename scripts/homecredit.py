@@ -352,7 +352,7 @@ def LR_fit(sparkdf_train, features, label, weight, verbose = True):
     model = model.fit(sparkdf_train)
 
     if verbose:
-        print("FITTING LOGISTIC REGRESSION MODEL\n")
+        print("FITTING MODEL: {}\n".format(model.uid.split('_')[0].upper()))
 
     return model
 
